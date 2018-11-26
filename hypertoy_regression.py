@@ -142,7 +142,6 @@ def train(args):
                 loss_mse.backward(retain_graph=True)
             optimE.step(); optimW1.step(); optimW2.step()
             loss = loss_mse.item()
-            acc = correct / 20.   
             old_data = data
             old_target = target
         if epoch % 200 == 0:
@@ -150,11 +149,10 @@ def train(args):
                 utils.save_hypernet_regression(args, [netE, W1, W2], loss_mse)
                 plot(args, out, data, target)
             print ('**************************************')
-            print ('Acc: {}, MSE Loss: {}'.format(acc, loss_mse))
+            print ('MSE Loss: {}'.format(loss_mse))
             print ('**************************************')
             
         
 if __name__ == '__main__':
     args = load_args()
     train(args)
-    #load_toy(args)

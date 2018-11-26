@@ -17,12 +17,12 @@ def load_args():
 
     parser = argparse.ArgumentParser(description='param-wgan')
     parser.add_argument('--z', default=128, type=int, help='latent space width')
-    parser.add_argument('--ze', default=300, type=int, help='encoder dimension')
+    parser.add_argument('--ze', default=256, type=int, help='encoder dimension')
     parser.add_argument('--batch_size', default=32, type=int)
     parser.add_argument('--epochs', default=200000, type=int)
     parser.add_argument('--target', default='small2', type=str)
     parser.add_argument('--dataset', default='mnist', type=str)
-    parser.add_argument('--beta', default=1000, type=int)
+    parser.add_argument('--beta', default=100, type=int)
     parser.add_argument('--pretrain_e', default=True, type=bool)
     parser.add_argument('--exp', default='0', type=str)
     parser.add_argument('--model', default='small', type=str)
@@ -78,7 +78,7 @@ def train(args):
     final = 100.
     e_batch_size = 1000
     if args.pretrain_e:
-        for j in range(2000):
+        for j in range(200):
             x = utils.sample_d(x_dist, e_batch_size)
             z = utils.sample_d(z_dist, e_batch_size)
             codes = netE(x)
@@ -156,8 +156,8 @@ def train(args):
                 print ('Test Accuracy: {}, Test Loss: {}'.format(test_acc, test_loss))
                 if test_loss < best_test_loss or test_acc > best_test_acc:
                     print ('==> new best stats, saving')
-                    utils.save_clf(args, [g1, g2, g3], test_acc)
-                    utils.save_hypernet_mnist(args, [netE, W1, W2, W3], test_acc)
+                    #utils.save_clf(args, [g1, g2, g3], test_acc)
+                    #utils.save_hypernet_mnist(args, [netE, W1, W2, W3], test_acc)
                     if test_loss < best_test_loss:
                         best_test_loss = test_loss
                         args.best_loss = test_loss
